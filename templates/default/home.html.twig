@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row mt-3 mb-5">
+        <div class="col-10 mx-auto">
+
+            <h1 class="text-center my-3">Plateforme de mise en relation</h1>
+            <hr>
+            {% include 'include/_flashes.html.twig' %}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-6">
+
+            <h3 class="text-center my-3">Tous les candidats</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th>Archivé le </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for candidat in candidats %}
+                        {% if candidat.archivedAt is null  %}
+
+                        <tr>
+                            <td>{{ candidat.prenom }}</td>
+                            <td>{{ candidat.nom }}</td>
+                            <td>{{ candidat.email }}</td>
+                            <td>{{ candidat.age  }}</td>
+                            <td></td>
+                            <td>
+                                <a href="{{ path('soft_delete_candidat', {'id': candidat.id}) }}" class="btn btn-danger" onclick="return confirm('Voulez vous archivez ce candidat ? ')" title="Archiver un candidat"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+
+                {% endif %}
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+
+{# ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// #}
+
+        <div class="col-6">
+            <h3 class="text-center my-3">Tous les candidats archivés</h3>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Archivé le</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                    {% for candidat in candidats %}
+                        {% if candidat.archivedAt is not null  %}
+
+                        <tr>
+                            <td>{{ candidat.prenom }}</td>
+                            <td>{{ candidat.nom }}</td>
+                            <td>{{ candidat.email }}</td>
+                            <td>{{ candidat.age  }}</td>
+                            <td>{{ candidat.archivedAt | date('d/m/Y') }}</td>
+                        </tr>
+
+                {% endif %}
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+{% endblock %}
